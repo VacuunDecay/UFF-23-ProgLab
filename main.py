@@ -4,7 +4,7 @@ import subprocess
 filename = input("Enter the filename (without extension): ")
 
 # Add the file extension
-input_file = filename + ".txt"
+input_file = filename + "in.txt"
 prog = filename + ".py"
 
 # Ask the user if they want to enter the inputs themselves
@@ -25,19 +25,30 @@ if choice.lower() == "y":
 else:
     # Read the contents of the text file
     with open(input_file, 'r') as file:
-        inputs = file.read()
+        lines = file.readlines()
 
-# Invoke the second Python program with the inputs
-process = subprocess.Popen(['python', prog], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-process.stdin.write(inputs.encode())
-process.stdin.flush()
+# Initialize variables
+tests = []
+test = []
+for line in lines:
+    line = line.strip()
+    if line == "-":
+        tests.append(test)
+        test = []
+    else:
+        test.append(line)
 
-# Read the output from the program
-output = process.stdout.read().decode()
+# Invoke the second Python program for each test
+for test in tests:
+    inputs = '\n'.join(test)
+    print(inputs)
 
-# Close the input stream and wait for the program to finish
-process.stdin.close()
-process.wait()
+    # Invoke the second Python program with the inputs
+    process = subprocess.Popen(['python', prog], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
+    output = process.communicate(inputs)[0]
 
-# Print the program's output
-print(output)
+    # Print the program's output
+    print(output)
+
+    # Wait for key press before moving on to the next test
+    input("Press Enter to continue...")    
