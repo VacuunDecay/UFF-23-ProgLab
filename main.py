@@ -1,11 +1,36 @@
 import subprocess
 
+def create_files(name):
+    # Create .py file
+    py_filename = name + ".py"
+    with open(py_filename, 'w') as py_file:
+        py_file.write("# Python code file")
+
+    # Create input.txt file
+    input_filename = name + "in.txt"
+    with open(input_filename, 'w') as input_file:
+        input_file.write("")
+
+    # Create output.txt file
+#    output_filename = name + "out.txt"
+#    with open(output_filename, 'w') as output_file:
+#        output_file.write("")
+
+    print("Files created successfully!")
+
+
 # Ask the user for the filename
 filename = input("Enter the filename (without extension): ")
 
 # Add the file extension
 input_file = filename + "in.txt"
+output_file = filename + "out.txt"
 prog = filename + ".py"
+
+choice = input("Create new project?(y/n):")
+
+if choice.lower() == "y":
+    create_files(filename)
 
 # Ask the user if they want to enter the inputs themselves
 choice = input("Do you want to enter the inputs yourself? (y/n): ")
